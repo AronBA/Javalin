@@ -50,29 +50,14 @@ public class Javelin extends JFrame {
         fileTree.addFileSelectionListener(textEditorArea::openFileInEditor);
         toolBarComponentList.add(new FileTreeToolBarComponent(fileTree));
 
-        toolBarComponentList.add(new ToolBarComponent() {
-            @Override
-            public JPanel getContainer() {
-
-               JPanel p = new JPanel();
-               p.add(new JLabel("test"));
-
-               return p;
+        for (Plugin plugin : plugins) {
+            if (plugin instanceof ComponentPlugin componentPlugin) {
+                if (componentPlugin.getComponent() instanceof ToolBarComponent toolbarComponent) {
+                    LOG.info("Loaded tool bar component: {} from {}", toolbarComponent.getContainerName(),plugin.getName());
+                    toolBarComponentList.add(toolbarComponent);
+                }
             }
-
-            @Override
-            public String getContainerName() {
-                return "test";
-            }
-        });
-//        for (Plugin plugin : plugins) {
-//            if (plugin instanceof ComponentPlugin componentPlugin) {
-//                if (componentPlugin.getComponent() instanceof ToolBarComponent toolbarComponent) {
-//                    LOG.info("Loaded tool bar component: {} from {}", toolbarComponent.getContainerName(),plugin.getName());
-//                    toolBarComponentList.add(toolbarComponent);
-//                }
-//            }
-//        }
+        }
 
 
         ToolBar westToolBar = new ToolBar(toolBarComponentList);

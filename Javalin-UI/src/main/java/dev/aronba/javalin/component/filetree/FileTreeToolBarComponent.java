@@ -9,7 +9,7 @@ public class FileTreeToolBarComponent extends ToolBarComponent {
     private final FileTree fileTree;
 
     public FileTreeToolBarComponent(FileTree fileTree) {
-        super();
+        super(UIManager.getIcon("FileView.directoryIcon"));
         this.fileTree = fileTree;
 
     }

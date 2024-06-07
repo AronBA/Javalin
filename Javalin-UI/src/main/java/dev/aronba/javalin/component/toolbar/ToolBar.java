@@ -14,14 +14,16 @@ public class ToolBar extends JPanel {
 
     private JPanel expandablePanel;
     @Getter
-    private final CardLayout cardLayout;
-    private final JToolBar toolBar;
+    private CardLayout cardLayout;
+    private JToolBar toolBar;
 
 
     public ToolBar(List<ToolBarComponent> components) {
         this.setLayout(new BorderLayout());
 
         this.toolBar = new JToolBar(JToolBar.VERTICAL);
+        this.toolBar.setRollover(true);
+        this.toolBar.addSeparator();
         this.cardLayout = new CardLayout();
 
         LOG.info("Found toolbar components: {}", components.size());
@@ -39,6 +41,7 @@ public class ToolBar extends JPanel {
             component.setCardLayout(cardLayout);
             component.setExpandablePanel(expandablePanel);
 
+            this.cardLayout.addLayoutComponent(component.getContainer(),component.getContainerName());
             this.expandablePanel.add(component.getContainer());
             this.toolBar.add(component.getToolbarButton());
         }
