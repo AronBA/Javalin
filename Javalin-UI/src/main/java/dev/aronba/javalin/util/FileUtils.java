@@ -67,4 +67,10 @@ public class FileUtils {
             JOptionPane.showMessageDialog(null, errMsg, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    public static File findFileByName(String path) {
+        return new File(path);
+    }
+    public static File findFilesByExtension(String extension) {
+        return new File("");
+    }
 }

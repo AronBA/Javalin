@@ -2,14 +2,19 @@ package dev.aronba.javalin.common.project;
 
 import dev.aronba.javalin.common.project.exception.ProjectLoadingException;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 @Getter
+@Setter
 public class Project {
 
+    private String mainClassName;
+    private File mainClassFile;
+    private String readMeLocation;
     private static final Logger LOG = LoggerFactory.getLogger(Project.class);
     private String name;
     private String rootUrl;
@@ -22,7 +27,6 @@ public class Project {
         this.rootUrl = file.getAbsolutePath();
         this.projectConfiguration = projectConfiguration;
     }
-
 
     public static Project loadFromPath(String absolutPath) {
         try {
@@ -48,6 +52,14 @@ public class Project {
             LOG.error("Error loading project from {}", absolutPath, e);
             throw new ProjectLoadingException(e);
         }
+    }
+
+
+    private void findMain(){
+
+    }
+    private void findReadme(){
+
     }
 
 }

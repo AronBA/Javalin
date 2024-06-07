@@ -1,15 +1,18 @@
 package dev.aronba.javalin;
 
 
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatXcodeDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme;
 import dev.aronba.javalin.common.component.ToolBarComponent;
 import dev.aronba.javalin.common.plugin.ComponentPlugin;
 import dev.aronba.javalin.common.plugin.Plugin;
+import dev.aronba.javalin.common.project.ProjectManager;
 import dev.aronba.javalin.component.filetree.FileTree;
 import dev.aronba.javalin.component.filetree.FileTreeToolBarComponent;
+import dev.aronba.javalin.component.menubar.MenuBar;
 import dev.aronba.javalin.component.texeditor.TextEditorArea;
 import dev.aronba.javalin.component.toolbar.ToolBar;
-import dev.aronba.javalin.common.project.ProjectManager;
 import dev.aronba.javalin.settings.SettingsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +56,7 @@ public class Javelin extends JFrame {
         for (Plugin plugin : plugins) {
             if (plugin instanceof ComponentPlugin componentPlugin) {
                 if (componentPlugin.getComponent() instanceof ToolBarComponent toolbarComponent) {
-                    LOG.info("Loaded tool bar component: {} from {}", toolbarComponent.getContainerName(),plugin.getName());
+                    LOG.info("Loaded tool bar component: {} from {}", toolbarComponent.getContainerName(), plugin.getName());
                     toolBarComponentList.add(toolbarComponent);
                 }
             }
@@ -64,14 +67,18 @@ public class Javelin extends JFrame {
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, westToolBar, textEditorArea);
         this.add(jSplitPane, BorderLayout.CENTER);
 
+
+        this.setJMenuBar(new MenuBar());
+
         this.projectManager.saveLastProject(this.projectManager.getCurrentProject());
         this.setTitle(APPLICATION_NAME);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 400);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-    }
 
+
+    }
 
     public static void run(String... args) {
         LOG.info("{} starting...", APPLICATION_NAME);
@@ -87,9 +94,13 @@ public class Javelin extends JFrame {
         pjt.manage();
 
         LOG.info("application started up");
-        FlatAtomOneDarkIJTheme.setup();
+//       FlatAtomOneDarkIJTheme.setup();
+//        FlatGitHubDarkIJTheme.setup();
+//        FlatXcodeDarkIJTheme.setup();
+        FlatVuesionIJTheme.setup();
         SwingUtilities.invokeLater(() -> new Javelin(plg, pjt, stg));
     }
+
 
 }
 

@@ -22,8 +22,6 @@ public class ToolBar extends JPanel {
         this.setLayout(new BorderLayout());
 
         this.toolBar = new JToolBar(JToolBar.VERTICAL);
-        this.toolBar.setRollover(true);
-        this.toolBar.addSeparator();
         this.cardLayout = new CardLayout();
 
         LOG.info("Found toolbar components: {}", components.size());
@@ -36,18 +34,17 @@ public class ToolBar extends JPanel {
         this.add(toolBar, BorderLayout.WEST);
 
 
-        //todo -> that's some really bad Code ;(
+        //Not sure if legit but basically injects on runtime the necessary fields for the ToolbarComponents
         for (ToolBarComponent component : components) {
             component.setCardLayout(cardLayout);
             component.setExpandablePanel(expandablePanel);
 
-            this.cardLayout.addLayoutComponent(component.getContainer(),component.getContainerName());
+            this.cardLayout.addLayoutComponent(component.getContainer(), component.getContainerName());
             this.expandablePanel.add(component.getContainer());
             this.toolBar.add(component.getToolbarButton());
         }
 
     }
-
 
 
 }
