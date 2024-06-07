@@ -9,17 +9,17 @@ public class MySidebarComponent implements ComponentPlugin {
 
     @Override
     public String getName() {
-        return "MyFirstToolBarComponentPlugin";
+        return "Notes";
     }
 
     @Override
     public String getVersion() {
-        return "";
+        return "1.0.0";
     }
 
     @Override
     public String getDescription() {
-        return "";
+        return "This is a Plugin which allows you to take notes in the sidebar!";
     }
 
     @Override

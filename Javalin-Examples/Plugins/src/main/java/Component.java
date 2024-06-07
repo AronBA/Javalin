@@ -4,14 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Component extends ToolBarComponent {
-    private JPanel panel;
+    private final JPanel panel;
 
     public Component() {
         super();
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BorderLayout());
 
-        jPanel.add(new JLabel("WOW THIS WORKS"), BorderLayout.CENTER);
+        jPanel.add(new JTextArea("Write your notes here!"), BorderLayout.CENTER);
+
         this.panel = jPanel;
     }
 

@@ -1,6 +1,6 @@
-package dev.aronba.javalin.project;
+package dev.aronba.javalin.common.project;
 
-import dev.aronba.javalin.project.exception.ProjectLoadingException;
+import dev.aronba.javalin.common.project.exception.ProjectLoadingException;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

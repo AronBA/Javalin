@@ -1,6 +1,13 @@
 # Javelin
 Very good IDE (I'm terrible at writing Swing components)
 
+Next steps:
+
+build system
+Plugin management page
+git client
+Plugin API
+
 ## Content
 ## Features
 ### TextEditor

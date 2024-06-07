@@ -1,4 +1,4 @@
-package dev.aronba.javalin.project;
+package dev.aronba.javalin.common.project;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;

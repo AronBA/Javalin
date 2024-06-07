@@ -1,6 +1,6 @@
-package dev.aronba.javalin.component.dialog;
+package dev.aronba.javalin.common.component.dialog;
 
-import dev.aronba.javalin.project.Project;
+import dev.aronba.javalin.common.project.Project;
 
 import javax.swing.*;
 import java.awt.*;

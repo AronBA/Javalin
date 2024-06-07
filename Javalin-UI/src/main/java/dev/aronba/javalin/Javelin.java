@@ -9,7 +9,7 @@ import dev.aronba.javalin.component.filetree.FileTree;
 import dev.aronba.javalin.component.filetree.FileTreeToolBarComponent;
 import dev.aronba.javalin.component.texeditor.TextEditorArea;
 import dev.aronba.javalin.component.toolbar.ToolBar;
-import dev.aronba.javalin.project.ProjectManager;
+import dev.aronba.javalin.common.project.ProjectManager;
 import dev.aronba.javalin.settings.SettingsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
