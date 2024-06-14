@@ -1,5 +1,6 @@
 package dev.aronba.javalin.component.menubar;
 
+import dev.aronba.javalin.Javalin;
 import dev.aronba.javalin.util.FileUtils;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import javax.swing.*;
 public class MenuBar extends JMenuBar {
 
 
-    public MenuBar() {
+    public MenuBar(Javalin javalin) {
         JMenu fileMenu = new JMenu("File");
         JMenuItem newFile = new JMenuItem("New");
         newFile.addActionListener(actionEvent -> {});
@@ -23,6 +24,9 @@ public class MenuBar extends JMenuBar {
 
         this.add(fileMenu);
 
+
+        PluginMenuItem plugin = new PluginMenuItem(javalin.getPluginManager());
+        this.add(plugin);
 
         JMenu editMenu = new JMenu("Edit");
         this.add(editMenu);

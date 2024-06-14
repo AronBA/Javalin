@@ -2,11 +2,11 @@ package dev.aronba.javalin;
 
 
 import com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatXcodeDarkIJTheme;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme;
 import dev.aronba.javalin.common.component.ToolBarComponent;
 import dev.aronba.javalin.common.plugin.ComponentPlugin;
 import dev.aronba.javalin.common.plugin.Plugin;
+import dev.aronba.javalin.common.plugin.PluginLoader;
+import dev.aronba.javalin.common.plugin.PluginManager;
 import dev.aronba.javalin.common.project.ProjectManager;
 import dev.aronba.javalin.component.filetree.FileTree;
 import dev.aronba.javalin.component.filetree.FileTreeToolBarComponent;
@@ -14,6 +14,7 @@ import dev.aronba.javalin.component.menubar.MenuBar;
 import dev.aronba.javalin.component.texeditor.TextEditorArea;
 import dev.aronba.javalin.component.toolbar.ToolBar;
 import dev.aronba.javalin.settings.SettingsManager;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,16 +24,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class Javelin extends JFrame {
+@Getter
+public class Javalin extends JFrame {
 
     private static final String APPLICATION_NAME = "Javelin";
-    private static final Logger LOG = LoggerFactory.getLogger(Javelin.class);
-    private final PluginLoader pluginManager;
+    private static final Logger LOG = LoggerFactory.getLogger(Javalin.class);
+    private final PluginManager pluginManager;
     private final ProjectManager projectManager;
     private final SettingsManager settingsManager;
 
-    public Javelin(PluginLoader pluginManager, ProjectManager projectManager, SettingsManager settingsManager) {
+    public Javalin(PluginManager pluginManager, ProjectManager projectManager, SettingsManager settingsManager) {
         this.pluginManager = pluginManager;
         this.projectManager = projectManager;
         this.settingsManager = settingsManager;
@@ -40,10 +41,7 @@ public class Javelin extends JFrame {
         this.setLayout(new BorderLayout());
 
 
-        List<Plugin> plugins = pluginManager.load().getLoadedPlugins();
-
-
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         TextEditorArea textEditorArea = new TextEditorArea();
 
@@ -53,14 +51,14 @@ public class Javelin extends JFrame {
         fileTree.addFileSelectionListener(textEditorArea::openFileInEditor);
         toolBarComponentList.add(new FileTreeToolBarComponent(fileTree));
 
-        for (Plugin plugin : plugins) {
-            if (plugin instanceof ComponentPlugin componentPlugin) {
-                if (componentPlugin.getComponent() instanceof ToolBarComponent toolbarComponent) {
-                    LOG.info("Loaded tool bar component: {} from {}", toolbarComponent.getContainerName(), plugin.getName());
-                    toolBarComponentList.add(toolbarComponent);
-                }
-            }
-        }
+//        for (Plugin plugin : plugins) {
+//            if (plugin instanceof ComponentPlugin componentPlugin) {
+//                if (componentPlugin.getComponent() instanceof ToolBarComponent toolbarComponent) {
+//                    LOG.info("Loaded tool bar component: {} from {}", toolbarComponent.getContainerName(), plugin.getName());
+//                    toolBarComponentList.add(toolbarComponent);
+//                }
+//            }
+//        }
 
 
         ToolBar westToolBar = new ToolBar(toolBarComponentList);
@@ -68,7 +66,7 @@ public class Javelin extends JFrame {
         this.add(jSplitPane, BorderLayout.CENTER);
 
 
-        this.setJMenuBar(new MenuBar());
+        this.setJMenuBar(new MenuBar(this));
 
         this.projectManager.saveLastProject(this.projectManager.getCurrentProject());
         this.setTitle(APPLICATION_NAME);
@@ -85,6 +83,7 @@ public class Javelin extends JFrame {
 
         LOG.info("loading plugins...");
         PluginLoader plg = new PluginLoader(new File("C:\\Develop\\Folder\\Javalin\\Plugins"));
+        PluginManager plm = new PluginManager(plg);
 
         LOG.info("loading settings...");
         SettingsManager stg = new SettingsManager();
@@ -98,7 +97,7 @@ public class Javelin extends JFrame {
 //        FlatGitHubDarkIJTheme.setup();
 //        FlatXcodeDarkIJTheme.setup();
         FlatVuesionIJTheme.setup();
-        SwingUtilities.invokeLater(() -> new Javelin(plg, pjt, stg));
+        SwingUtilities.invokeLater(() -> new Javalin(plm, pjt, stg));
     }
 
 

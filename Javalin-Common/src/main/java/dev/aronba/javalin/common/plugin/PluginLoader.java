@@ -1,22 +1,28 @@
-package dev.aronba.javalin;
+package dev.aronba.javalin.common.plugin;
 
-import dev.aronba.javalin.common.plugin.Plugin;
+import dev.aronba.javalin.common.dto.PluginLoadResult;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+@Getter
 public class PluginLoader {
     private final static Logger LOG = LoggerFactory.getLogger(PluginLoader.class);
-    private List<File> jarFiles;
-    private ClassLoader classLoader;
+    private final List<File> jarFiles;
+    private final ClassLoader classLoader;
+    private Optional<PluginLoadResult> currentlyLoadedPlugins = Optional.empty();
+    private final Class<?>[] injectables;
 
-    public PluginLoader(File pluginFolder) {
+    public PluginLoader(File pluginFolder, Class<?>... injectables) {
+        this.injectables = injectables;
         this.jarFiles = new ArrayList<>();
         if (!pluginFolder.exists() || !pluginFolder.isDirectory()) {
             throw new IllegalArgumentException("Plugin folder does not exist");
@@ -41,9 +47,9 @@ public class PluginLoader {
         this.classLoader = new PluginClassLoader(urls);
     }
 
-    public LoadedPlugins load() {
+    public PluginLoadResult load() {
         LOG.info("loading plugins");
-        LoadedPlugins.LoadedPluginsBuilder builder = LoadedPlugins.builder();
+        PluginLoadResult.PluginLoadResultBuilder builder = PluginLoadResult.builder();
 
         List<String> clasNames = getAllClassNames();
 
@@ -53,6 +59,7 @@ public class PluginLoader {
         List<Plugin> plugins = loadPluginsFromKlass(klass);
         builder.loadedPlugins(plugins);
 
+        this.currentlyLoadedPlugins = Optional.of(builder.build());
         return builder.build();
     }
 
@@ -62,6 +69,14 @@ public class PluginLoader {
             if (Plugin.class.isAssignableFrom(klassClass)) {
                 try {
                     Plugin plugin = (Plugin) klassClass.getDeclaredConstructor().newInstance();
+                    klassClass.getA
+
+
+
+
+
+
+
                     plugins.add(plugin);
                     LOG.debug("loaded plugin {}", plugin.getName());
                 } catch (Exception e) {

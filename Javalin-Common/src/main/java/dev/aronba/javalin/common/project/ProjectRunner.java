@@ -21,27 +21,27 @@ public class ProjectRunner {
         }
     }
 
-    public void run() {
-        List<String> command = new ArrayList<>();
-        command.add("javac");
-        command.add("-d");
-        command.add(binDir);
-
-        // Recursively add all Java source files in the src directory
-        addSourceFiles(new File(project.getRootFile()), command);
-
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.redirectErrorStream(true);
-
-        Process process = processBuilder.start();
-        printProcessOutput(process);
-
-        int exitCode = process.waitFor();
-        if (exitCode != 0) {
-            throw new RuntimeException("Compilation failed.");
-        }
-
-    }
+//    public void run() {
+//        List<String> command = new ArrayList<>();
+//        command.add("javac");
+//        command.add("-d");
+//        command.add(binDir);
+//
+//        // Recursively add all Java source files in the src directory
+//        addSourceFiles(new File(project.getRootFile()), command);
+//
+//        ProcessBuilder processBuilder = new ProcessBuilder(command);
+//        processBuilder.redirectErrorStream(true);
+//
+//        Process process = processBuilder.start();
+//        printProcessOutput(process);
+//
+//        int exitCode = process.waitFor();
+//        if (exitCode != 0) {
+//            throw new RuntimeException("Compilation failed.");
+//        }
+//
+//    }
 
 
     private void compile() {

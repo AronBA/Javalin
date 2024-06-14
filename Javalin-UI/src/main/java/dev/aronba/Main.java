@@ -1,10 +1,10 @@
 package dev.aronba;
 
-import dev.aronba.javalin.Javelin;
+import dev.aronba.javalin.Javalin;
 
 public class Main {
 
     public static void main(String[] args) {
-        Javelin.run(args);
+        Javalin.run(args);
     }
 }
