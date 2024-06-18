@@ -2,9 +2,9 @@ package dev.aronba.javalin;
 
 
 import com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme;
+import dev.aronba.javalin.common.component.ComponentManager;
 import dev.aronba.javalin.common.component.ToolBarComponent;
-import dev.aronba.javalin.common.plugin.ComponentPlugin;
-import dev.aronba.javalin.common.plugin.Plugin;
+import dev.aronba.javalin.common.plugin.PluginDependencyManager;
 import dev.aronba.javalin.common.plugin.PluginLoader;
 import dev.aronba.javalin.common.plugin.PluginManager;
 import dev.aronba.javalin.common.project.ProjectManager;
@@ -32,16 +32,18 @@ public class Javalin extends JFrame {
     private final PluginManager pluginManager;
     private final ProjectManager projectManager;
     private final SettingsManager settingsManager;
+    private final ComponentManager componentManager;
 
-    public Javalin(PluginManager pluginManager, ProjectManager projectManager, SettingsManager settingsManager) {
+    public Javalin(PluginManager pluginManager, ProjectManager projectManager, SettingsManager settingsManager, ComponentManager componentManager) {
         this.pluginManager = pluginManager;
         this.projectManager = projectManager;
         this.settingsManager = settingsManager;
+        this.componentManager = componentManager;
 
         this.setLayout(new BorderLayout());
 
 
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         TextEditorArea textEditorArea = new TextEditorArea();
 
@@ -81,23 +83,30 @@ public class Javalin extends JFrame {
     public static void run(String... args) {
         LOG.info("{} starting...", APPLICATION_NAME);
 
+        LOG.info("loading projects...");
+        ProjectManager pjt = new ProjectManager();
+        pjt.manage();
+
+        LOG.info("loading component manager...");
+        ComponentManager cm = new ComponentManager();
+
         LOG.info("loading plugins...");
-        PluginLoader plg = new PluginLoader(new File("C:\\Develop\\Folder\\Javalin\\Plugins"));
+        PluginDependencyManager pluginDependencyManager = new PluginDependencyManager(pjt, cm);
+
+        PluginLoader plg = new PluginLoader(new File("C:\\Develop\\Folder\\Javalin\\Plugins"), pluginDependencyManager);
         PluginManager plm = new PluginManager(plg);
+        plm.initialize();
 
         LOG.info("loading settings...");
         SettingsManager stg = new SettingsManager();
 
-        LOG.info("loading projects...");
-        ProjectManager pjt = new ProjectManager();
-        pjt.manage();
 
         LOG.info("application started up");
 //       FlatAtomOneDarkIJTheme.setup();
 //        FlatGitHubDarkIJTheme.setup();
 //        FlatXcodeDarkIJTheme.setup();
         FlatVuesionIJTheme.setup();
-        SwingUtilities.invokeLater(() -> new Javalin(plm, pjt, stg));
+        SwingUtilities.invokeLater(() -> new Javalin(plm, pjt, stg, cm));
     }
 
 

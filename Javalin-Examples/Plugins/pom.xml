@@ -5,14 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.aronba</groupId>
-    <artifactId>Plugins</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>git-plugin</artifactId>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
-            <version>5.12.0.202106070339-r</version>
+            <version>6.7.0.202309050840-r</version>
         </dependency>
         <dependency>
             <groupId>dev.aronba</groupId>

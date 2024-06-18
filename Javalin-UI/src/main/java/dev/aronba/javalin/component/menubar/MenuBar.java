@@ -25,7 +25,7 @@ public class MenuBar extends JMenuBar {
         this.add(fileMenu);
 
 
-        PluginMenuItem plugin = new PluginMenuItem(javalin.getPluginManager());
+        PluginMenuItem plugin = new PluginMenuItem(javalin.getPluginManager().getPluginLoader());
         this.add(plugin);
 
         JMenu editMenu = new JMenu("Edit");

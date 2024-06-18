@@ -29,4 +29,10 @@ public class PluginManager {
         registeredPlugins.addAll(loadedPlugins);
         registeredPlugins.addAll(brokenPlugins);
     }
+
+    public void initialize() {
+        for (Plugin plugin : loadedPlugins) {
+            plugin.onInit();
+        }
+    }
 }

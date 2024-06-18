@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -18,11 +19,12 @@ public class PluginLoader {
     private final static Logger LOG = LoggerFactory.getLogger(PluginLoader.class);
     private final List<File> jarFiles;
     private final ClassLoader classLoader;
+    private final PluginDependencyManager pluginDependencyManager;
+    //todo -> move to pluginmanager
     private Optional<PluginLoadResult> currentlyLoadedPlugins = Optional.empty();
-    private final Class<?>[] injectables;
 
-    public PluginLoader(File pluginFolder, Class<?>... injectables) {
-        this.injectables = injectables;
+    public PluginLoader(File pluginFolder, PluginDependencyManager pluginDependencyManager) {
+        this.pluginDependencyManager = pluginDependencyManager;
         this.jarFiles = new ArrayList<>();
         if (!pluginFolder.exists() || !pluginFolder.isDirectory()) {
             throw new IllegalArgumentException("Plugin folder does not exist");
@@ -51,43 +53,48 @@ public class PluginLoader {
         LOG.info("loading plugins");
         PluginLoadResult.PluginLoadResultBuilder builder = PluginLoadResult.builder();
 
-        List<String> clasNames = getAllClassNames();
+        List<String> classNames = getAllClassNames();
+        List<Class<?>> classList = loadClassesWithClassLoader(classNames);
+        List<Plugin> plugins = instantiatePluginClasses(classList);
 
-        LOG.debug("loading classes");
-        List<Class<?>> klass = loadKlasses(clasNames);
-
-        List<Plugin> plugins = loadPluginsFromKlass(klass);
         builder.loadedPlugins(plugins);
+        builder.brokenPlugins(Collections.emptyList());
 
         this.currentlyLoadedPlugins = Optional.of(builder.build());
         return builder.build();
     }
 
-    private List<Plugin> loadPluginsFromKlass(List<Class<?>> klass) {
+    private List<Plugin> instantiatePluginClasses(List<Class<?>> classList) {
         List<Plugin> plugins = new ArrayList<>();
-        for (Class<?> klassClass : klass) {
-            if (Plugin.class.isAssignableFrom(klassClass)) {
-                try {
-                    Plugin plugin = (Plugin) klassClass.getDeclaredConstructor().newInstance();
-                    klassClass.getA
-
-
-
-
-
-
-
-                    plugins.add(plugin);
-                    LOG.debug("loaded plugin {}", plugin.getName());
-                } catch (Exception e) {
-                    LOG.error("error loading plugin {}", klassClass.getName(), e);
-                }
+        for (Class<?> clazz : classList) {
+            if (!Plugin.class.isAssignableFrom(clazz)) continue;
+            try {
+                Class<?>[] dependencies = findDependencies(clazz);
+                Constructor<?> constructor = clazz.getConstructor(dependencies);
+                Plugin plugin = pluginDependencyManager.injectDependencies(constructor, List.of(dependencies));
+                plugins.add(plugin);
+                LOG.debug("loaded plugin {}", plugin.getName());
+            } catch (Exception e) {
+                LOG.error("error loading plugin {}", clazz.getName(), e);
             }
         }
         return plugins;
     }
 
-    private List<Class<?>> loadKlasses(List<String> clasNames) {
+    private Class<?>[] findDependencies(Class<?> clazz) {
+        Field[] fields = clazz.getDeclaredFields();
+        Class<?>[] dependencies = new Class<?>[fields.length];
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            if (field.isAnnotationPresent(JavalinInjectable.class)) {
+                LOG.debug("found javalin injectable {} with the type {}", field.getName(), field.getType());
+                dependencies[i] = field.getType();
+            }
+        }
+        return Arrays.stream(dependencies).filter(Objects::nonNull).toArray(Class<?>[]::new);
+    }
+
+    private List<Class<?>> loadClassesWithClassLoader(List<String> clasNames) {
         List<Class<?>> klass = new ArrayList<>();
 
         for (String clasName : clasNames) {
