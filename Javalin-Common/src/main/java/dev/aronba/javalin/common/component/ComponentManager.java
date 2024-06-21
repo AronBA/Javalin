@@ -11,7 +11,6 @@ import java.util.List;
 public class ComponentManager {
     private final List<ToolBarComponent> toolBarComponents = new ArrayList<>();
 
-
     public void addSideBarComponent(ToolBarComponent toolbarComponent) {
         this.toolBarComponents.add(toolbarComponent);
     }

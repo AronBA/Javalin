@@ -11,6 +11,7 @@ import dev.aronba.javalin.common.project.ProjectManager;
 import dev.aronba.javalin.component.filetree.FileTree;
 import dev.aronba.javalin.component.filetree.FileTreeToolBarComponent;
 import dev.aronba.javalin.component.menubar.MenuBar;
+import dev.aronba.javalin.component.terminal.Terminal;
 import dev.aronba.javalin.component.texeditor.TextEditorArea;
 import dev.aronba.javalin.component.toolbar.ToolBar;
 import dev.aronba.javalin.settings.SettingsManager;
@@ -54,6 +55,10 @@ public class Javalin extends JFrame {
         loadToolbarFromPlugins();
         ToolBar westToolBar = new ToolBar(toolBarComponentList);
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, westToolBar, textEditorArea);
+
+
+        Terminal terminal = new Terminal();
+        this.add(terminal, BorderLayout.SOUTH);
 
         this.add(jSplitPane, BorderLayout.CENTER);
         this.setJMenuBar(new MenuBar(this));

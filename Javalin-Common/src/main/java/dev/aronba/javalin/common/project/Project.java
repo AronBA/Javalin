@@ -1,12 +1,14 @@
 package dev.aronba.javalin.common.project;
 
 import dev.aronba.javalin.common.project.exception.ProjectLoadingException;
+import dev.aronba.javalin.common.util.MainMethodFinder;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,9 +16,7 @@ public class Project {
 
     private static final Logger LOG = LoggerFactory.getLogger(Project.class);
 
-    private final String mainClassName;
     private final File mainClassFile;
-    private final String readMeLocation;
     private final File readMeFile;
     private final File rootFile;
     private final ProjectConfiguration projectConfiguration;
@@ -30,10 +30,8 @@ public class Project {
         this.projectConfiguration = projectConfiguration;
 
         this.mainClassFile = findMain();
-        this.mainClassName = mainClassFile.getAbsolutePath();
 
         this.readMeFile = findReadme();
-        this.readMeLocation = readMeFile.getAbsolutePath();
 
 
     }
@@ -70,7 +68,14 @@ public class Project {
     }
 
     private File findMain() {
-        return findFileInProjectByName("");
+        try {
+            List<String> mainMethods = MainMethodFinder.findMainMethods(this.rootFile);
+            LOG.info("found main methods: {}", mainMethods);
+            return new File(rootFile, mainMethods.get(0));
+        } catch (Exception e) {
+            LOG.error("Error finding main method", e);
+            return null;
+        }
     }
 
     private File findReadme() {
