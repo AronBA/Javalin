@@ -12,20 +12,30 @@ import java.io.File;
 @Setter
 public class Project {
 
-    private String mainClassName;
-    private File mainClassFile;
-    private String readMeLocation;
     private static final Logger LOG = LoggerFactory.getLogger(Project.class);
-    private String name;
-    private String rootUrl;
+
+    private final String mainClassName;
+    private final File mainClassFile;
+    private final String readMeLocation;
+    private final File readMeFile;
     private final File rootFile;
     private final ProjectConfiguration projectConfiguration;
+    private String name;
+    private String rootUrl;
 
     public Project(File file, ProjectConfiguration projectConfiguration) {
         this.name = file.getName();
         this.rootFile = file;
         this.rootUrl = file.getAbsolutePath();
         this.projectConfiguration = projectConfiguration;
+
+        this.mainClassFile = findMain();
+        this.mainClassName = mainClassFile.getAbsolutePath();
+
+        this.readMeFile = findReadme();
+        this.readMeLocation = readMeFile.getAbsolutePath();
+
+
     }
 
     public static Project loadFromPath(String absolutPath) {
@@ -47,7 +57,7 @@ public class Project {
                 throw new ProjectLoadingException("Invalid project configuration: " + absolutPath);
             }
 
-            return new Project(file,projectConfiguration);
+            return new Project(file, projectConfiguration);
         } catch (Exception e) {
             LOG.error("Error loading project from {}", absolutPath, e);
             throw new ProjectLoadingException(e);
@@ -55,11 +65,16 @@ public class Project {
     }
 
 
-    private void findMain(){
-
+    private File findFileInProjectByName(String fileName) {
+        return new File(rootFile, fileName);
     }
-    private void findReadme(){
 
+    private File findMain() {
+        return findFileInProjectByName("");
+    }
+
+    private File findReadme() {
+        return findFileInProjectByName("");
     }
 
 }

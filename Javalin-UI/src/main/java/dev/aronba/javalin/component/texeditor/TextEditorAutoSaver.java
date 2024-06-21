@@ -1,6 +1,6 @@
 package dev.aronba.javalin.component.texeditor;
 
-import dev.aronba.javalin.util.FileUtils;
+import dev.aronba.javalin.common.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

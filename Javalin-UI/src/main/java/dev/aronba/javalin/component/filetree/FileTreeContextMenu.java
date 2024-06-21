@@ -1,7 +1,7 @@
 package dev.aronba.javalin.component.filetree;
 
 
-import dev.aronba.javalin.util.FileUtils;
+import dev.aronba.javalin.common.util.FileUtils;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;

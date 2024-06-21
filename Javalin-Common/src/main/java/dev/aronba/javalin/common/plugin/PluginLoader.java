@@ -1,5 +1,6 @@
 package dev.aronba.javalin.common.plugin;
 
+import com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme;
 import dev.aronba.javalin.common.dto.PluginLoadResult;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -50,6 +51,10 @@ public class PluginLoader {
     }
 
     public PluginLoadResult load() {
+
+        //TODO -> ThemeSetup here is is workaround so plugins get loaded with the correct theme
+        FlatVuesionIJTheme.setup();
+
         LOG.info("loading plugins");
         PluginLoadResult.PluginLoadResultBuilder builder = PluginLoadResult.builder();
 

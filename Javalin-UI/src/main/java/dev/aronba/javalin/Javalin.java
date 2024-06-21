@@ -85,13 +85,16 @@ public class Javalin extends JFrame {
         LOG.info("loading settings...");
         SettingsManager stg = new SettingsManager();
 
-
+        setTheme();
         LOG.info("application started up");
+        SwingUtilities.invokeLater(() -> new Javalin(plm, pjt, stg, cm));
+    }
+
+    public static void setTheme() {
 //       FlatAtomOneDarkIJTheme.setup();
 //        FlatGitHubDarkIJTheme.setup();
 //        FlatXcodeDarkIJTheme.setup();
         FlatVuesionIJTheme.setup();
-        SwingUtilities.invokeLater(() -> new Javalin(plm, pjt, stg, cm));
     }
 
     private void loadToolbarFromPlugins() {

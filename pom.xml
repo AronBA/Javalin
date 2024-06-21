@@ -20,9 +20,6 @@
         <module>
             javalin-common
         </module>
-        <module>
-            javalin-pluginloader
-        </module>
     </modules>
     <dependencies>
         <dependency>

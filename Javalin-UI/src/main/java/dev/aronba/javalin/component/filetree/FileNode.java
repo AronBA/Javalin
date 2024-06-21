@@ -1,6 +1,6 @@
 package dev.aronba.javalin.component.filetree;
 
-import dev.aronba.javalin.util.FileUtils;
+import dev.aronba.javalin.common.util.FileUtils;
 import lombok.Getter;
 
 import java.io.File;

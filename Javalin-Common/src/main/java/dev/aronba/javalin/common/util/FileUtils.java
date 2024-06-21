@@ -1,4 +1,4 @@
-package dev.aronba.javalin.util;
+package dev.aronba.javalin.common.util;
 
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;

@@ -1,7 +1,6 @@
 package dev.aronba.javalin.component.menubar;
 
 import dev.aronba.javalin.Javalin;
-import dev.aronba.javalin.util.FileUtils;
 
 import javax.swing.*;
 
