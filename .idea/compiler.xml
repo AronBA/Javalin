@@ -7,13 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="git-plugin" />
+        <module name="javalin-ui" />
+        <module name="javalin-common" />
         <module name="Javalin-UI" />
         <module name="Plugins" />
         <module name="Javalin-Common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Javalin" target="21" />
+      <module name="Javalin-Common" target="21" />
       <module name="Javalin-PluginLoader" target="16" />
+      <module name="Javalin-UI" target="21" />
+      <module name="Plugins" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
