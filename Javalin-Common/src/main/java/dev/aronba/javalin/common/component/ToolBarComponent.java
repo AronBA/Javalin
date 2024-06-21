@@ -18,27 +18,31 @@ public abstract class ToolBarComponent implements JavalinComponent {
     private JPanel expandablePanel;
 
 
-    protected ToolBarComponent() {
-        initialize(this.getContainerName(), null);
-    }
 
+    protected ToolBarComponent() {
+        this(null, null);
+    }
     protected ToolBarComponent(String containerName) {
-        initialize(containerName, null);
+        this(containerName, null);
     }
 
     protected ToolBarComponent(Icon icon) {
-        initialize(null, icon);
+        this(null, icon);
     }
 
     protected ToolBarComponent(String containerName, Icon icon) {
-        initialize(containerName, icon);
+        if (containerName == null) {
+            containerName = this.getContainerName();
+        }
+        String finalContainerName = containerName;
+
+        this.setToolbarButton(new JButton(finalContainerName, icon));
+        this.getToolbarButton().addActionListener(e -> {
+            this.getCardLayout().show(this.getExpandablePanel(), finalContainerName);
+            LOG.info("Clicked toolbar button switched to " + finalContainerName);
+        });
     }
 
-    private void initialize(String containerName, Icon icon) {
-        this.setToolbarButton(new JButton(containerName, icon));
-
-        this.getToolbarButton().addActionListener(e -> this.getCardLayout().show(this.getExpandablePanel(), containerName == null ? getContainerName() : containerName));
-    }
 
     public abstract JPanel getContainer();
 

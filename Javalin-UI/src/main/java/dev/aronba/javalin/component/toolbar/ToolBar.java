@@ -39,8 +39,7 @@ public class ToolBar extends JPanel {
             component.setCardLayout(cardLayout);
             component.setExpandablePanel(expandablePanel);
 
-            this.cardLayout.addLayoutComponent(component.getContainer(), component.getContainerName());
-            this.expandablePanel.add(component.getContainer());
+            this.expandablePanel.add(component.getContainer(), component.getContainerName());
             this.toolBar.add(component.getToolbarButton());
         }
 

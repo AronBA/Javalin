@@ -33,6 +33,7 @@ public class Javalin extends JFrame {
     private final ProjectManager projectManager;
     private final SettingsManager settingsManager;
     private final ComponentManager componentManager;
+    private final List<ToolBarComponent> toolBarComponentList = new ArrayList<>();
 
     public Javalin(PluginManager pluginManager, ProjectManager projectManager, SettingsManager settingsManager, ComponentManager componentManager) {
         this.pluginManager = pluginManager;
@@ -42,42 +43,26 @@ public class Javalin extends JFrame {
 
         this.setLayout(new BorderLayout());
 
-
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         TextEditorArea textEditorArea = new TextEditorArea();
 
-        List<ToolBarComponent> toolBarComponentList = new ArrayList<>();
-
         FileTree fileTree = new FileTree(this.projectManager.getCurrentProject().getRootFile());
         fileTree.addFileSelectionListener(textEditorArea::openFileInEditor);
+
         toolBarComponentList.add(new FileTreeToolBarComponent(fileTree));
-
-//        for (Plugin plugin : plugins) {
-//            if (plugin instanceof ComponentPlugin componentPlugin) {
-//                if (componentPlugin.getComponent() instanceof ToolBarComponent toolbarComponent) {
-//                    LOG.info("Loaded tool bar component: {} from {}", toolbarComponent.getContainerName(), plugin.getName());
-//                    toolBarComponentList.add(toolbarComponent);
-//                }
-//            }
-//        }
-
-
+        loadToolbarFromPlugins();
         ToolBar westToolBar = new ToolBar(toolBarComponentList);
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, westToolBar, textEditorArea);
+
         this.add(jSplitPane, BorderLayout.CENTER);
-
-
         this.setJMenuBar(new MenuBar(this));
-
         this.projectManager.saveLastProject(this.projectManager.getCurrentProject());
         this.setTitle(APPLICATION_NAME);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 400);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
-
     }
 
     public static void run(String... args) {
@@ -107,6 +92,11 @@ public class Javalin extends JFrame {
 //        FlatXcodeDarkIJTheme.setup();
         FlatVuesionIJTheme.setup();
         SwingUtilities.invokeLater(() -> new Javalin(plm, pjt, stg, cm));
+    }
+
+    private void loadToolbarFromPlugins() {
+        List<ToolBarComponent> toolBarComponents = this.componentManager.getToolBarComponents();
+        toolBarComponentList.addAll(toolBarComponents);
     }
 
 

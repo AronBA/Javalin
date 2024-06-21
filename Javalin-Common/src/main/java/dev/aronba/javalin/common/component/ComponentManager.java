@@ -1,7 +1,6 @@
 package dev.aronba.javalin.common.component;
 
 import dev.aronba.javalin.common.exception.NotImplementedException;
-import dev.aronba.javalin.common.plugin.SideBarComponent;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -10,11 +9,11 @@ import java.util.List;
 
 @Getter
 public class ComponentManager {
-    private final List<SideBarComponent> sideBarComponents = new ArrayList<>();
+    private final List<ToolBarComponent> toolBarComponents = new ArrayList<>();
 
 
-    public void addSideBarComponent(SideBarComponent sideBarComponent) {
-        this.sideBarComponents.add(sideBarComponent);
+    public void addSideBarComponent(ToolBarComponent toolbarComponent) {
+        this.toolBarComponents.add(toolbarComponent);
     }
 
     public void addMenuBarComponent(JMenuBar menuBarComponentj) {
