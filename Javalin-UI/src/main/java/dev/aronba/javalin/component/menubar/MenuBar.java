@@ -1,7 +1,7 @@
 package dev.aronba.javalin.component.menubar;
 
 import dev.aronba.javalin.Javalin;
-import dev.aronba.javalin.common.util.Compiler;
+import dev.aronba.javalin.common.util.CompileUtils;
 import dev.aronba.javalin.common.project.Project;
 import dev.aronba.javalin.common.project.Runner;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class MenuBar extends JMenuBar {
         JMenuItem run = new JMenuItem("Run project");
         run.addActionListener(actionEvent -> {
             try {
-                Compiler.compileProject(javalin.getProjectManager().getCurrentProject().getRootFile());
+                CompileUtils.compileProject(javalin.getProjectManager().getCurrentProject().getRootFile());
                 Project project = javalin.getProjectManager().getCurrentProject();
                 Runner.run(project);
             } catch (Exception e) {

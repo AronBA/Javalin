@@ -10,16 +10,15 @@ Plugin API
 
 ## Content
 ## Features
-### TextEditor
-basic text editor with autosave
-### FileTree
-basic file tree with filewatcher
-### Terminal (WIP)
-basic terminal emulator
-### GitClient (WIP)
-basic Git client
-### Plugin System
-plugin system which allows you do write plugins
+- Texteditor
+  - with autosave and syntaxhighliting
+- Filetree
+  - with file watcher
+- Plugin system
+  - use or create a plugin
+- Build & Run
+  - build your projects
+
 ## Install
 ## Developer
 ### Plugin

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UtilityClass
-public class Compiler {
-    private static final Logger LOG = LoggerFactory.getLogger(Compiler.class);
+public class CompileUtils {
+    private static final Logger LOG = LoggerFactory.getLogger(CompileUtils.class);
 
     public static void compileProject(File projectDir) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder();
