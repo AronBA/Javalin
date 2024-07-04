@@ -1,6 +1,32 @@
 # Plugin Development
 Developing your own plugin to extend Javalins functionality is pretty easy. In order to this you need to understand some core concepts of the Plugin system
 
+## Project Setup
+Set up your Java Project with Maven. You need a dependency on the javalin-common library.
+There is also an Example Plugin Project in this repository.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dev.aronba</groupId>
+    <artifactId>git-plugin</artifactId>
+    <version>1.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>dev.aronba</groupId>
+            <artifactId>javalin-common</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+
 ## Plugin Class
 Every Plugin needs to inherit from the Plugin Class in order to be loaded by the PluginLoader.
 The onInit Function is called **AFTER** the Plugin is loaded and **AFTER** the constructor of the class. There are some fields on the Plugin class which should be set on init:
@@ -57,6 +83,7 @@ public class NoUsePlugin extends Plugin {
     }
 }
 ```
+
 
 
 

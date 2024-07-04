@@ -14,11 +14,7 @@
             <artifactId>lombok</artifactId>
             <version>1.18.32</version>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.jgit</groupId>
-            <artifactId>org.eclipse.jgit</artifactId>
-            <version>6.7.0.202309050840-r</version>
-        </dependency>
+
         <dependency>
             <groupId>dev.aronba</groupId>
             <artifactId>javalin-common</artifactId>
