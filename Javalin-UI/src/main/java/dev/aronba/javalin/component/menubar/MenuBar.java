@@ -1,16 +1,23 @@
 package dev.aronba.javalin.component.menubar;
 
 import dev.aronba.javalin.Javalin;
+import dev.aronba.javalin.common.util.CompileUtils;
+import dev.aronba.javalin.common.project.Project;
+import dev.aronba.javalin.common.project.Runner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 
 public class MenuBar extends JMenuBar {
+    private final static Logger LOG = LoggerFactory.getLogger(MenuBar.class);
 
 
     public MenuBar(Javalin javalin) {
         JMenu fileMenu = new JMenu("File");
         JMenuItem newFile = new JMenuItem("New");
-        newFile.addActionListener(actionEvent -> {});
+        newFile.addActionListener(actionEvent -> {
+        });
         JMenuItem openFile = new JMenuItem("Open");
         JMenuItem editFile = new JMenuItem("Close");
         JMenuItem saveFile = new JMenuItem("Save");
@@ -34,6 +41,18 @@ public class MenuBar extends JMenuBar {
         this.add(gitMenu);
 
         JMenu runMenu = new JMenu("Run");
+        JMenuItem run = new JMenuItem("Run project");
+        run.addActionListener(actionEvent -> {
+            try {
+                CompileUtils.compileProject(javalin.getProjectManager().getCurrentProject().getRootFile());
+                Project project = javalin.getProjectManager().getCurrentProject();
+                Runner.run(project);
+            } catch (Exception e) {
+                LOG.error(e.getMessage(), e);
+            }
+
+        });
+        runMenu.add(run);
         this.add(runMenu);
     }
 

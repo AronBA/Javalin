@@ -15,6 +15,7 @@ import java.nio.file.Path;
 public class FileUtils {
     private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
 
+
     public static void deleteFile(File file) {
         try {
             file.delete();

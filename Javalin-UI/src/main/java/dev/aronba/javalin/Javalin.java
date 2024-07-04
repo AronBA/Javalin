@@ -11,6 +11,7 @@ import dev.aronba.javalin.common.project.ProjectManager;
 import dev.aronba.javalin.component.filetree.FileTree;
 import dev.aronba.javalin.component.filetree.FileTreeToolBarComponent;
 import dev.aronba.javalin.component.menubar.MenuBar;
+import dev.aronba.javalin.component.terminal.Terminal;
 import dev.aronba.javalin.component.texeditor.TextEditorArea;
 import dev.aronba.javalin.component.toolbar.ToolBar;
 import dev.aronba.javalin.settings.SettingsManager;
@@ -27,7 +28,9 @@ import java.util.List;
 @Getter
 public class Javalin extends JFrame {
 
-    private static final String APPLICATION_NAME = "Javelin";
+
+    public static final File PLUGIN_FOLDER = new File("C:\\Develop\\Folder\\Javalin\\Plugins");
+    private static final String APPLICATION_NAME = "Javalin";
     private static final Logger LOG = LoggerFactory.getLogger(Javalin.class);
     private final PluginManager pluginManager;
     private final ProjectManager projectManager;
@@ -43,7 +46,7 @@ public class Javalin extends JFrame {
 
         this.setLayout(new BorderLayout());
 
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         TextEditorArea textEditorArea = new TextEditorArea();
 
@@ -55,12 +58,16 @@ public class Javalin extends JFrame {
         ToolBar westToolBar = new ToolBar(toolBarComponentList);
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, westToolBar, textEditorArea);
 
+
+        Terminal terminal = new Terminal();
+        this.add(terminal, BorderLayout.SOUTH);
+
         this.add(jSplitPane, BorderLayout.CENTER);
         this.setJMenuBar(new MenuBar(this));
         this.projectManager.saveLastProject(this.projectManager.getCurrentProject());
         this.setTitle(APPLICATION_NAME);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(400, 400);
+        this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -78,7 +85,7 @@ public class Javalin extends JFrame {
         LOG.info("loading plugins...");
         PluginDependencyManager pluginDependencyManager = new PluginDependencyManager(pjt, cm);
 
-        PluginLoader plg = new PluginLoader(new File("C:\\Develop\\Folder\\Javalin\\Plugins"), pluginDependencyManager);
+        PluginLoader plg = new PluginLoader(PLUGIN_FOLDER, pluginDependencyManager);
         PluginManager plm = new PluginManager(plg);
         plm.initialize();
 
@@ -91,9 +98,11 @@ public class Javalin extends JFrame {
     }
 
     public static void setTheme() {
-//       FlatAtomOneDarkIJTheme.setup();
-//        FlatGitHubDarkIJTheme.setup();
-//        FlatXcodeDarkIJTheme.setup();
+        /*
+        FlatAtomOneDarkIJTheme.setup();
+        FlatGitHubDarkIJTheme.setup();
+        FlatXcodeDarkIJTheme.setup();
+        */
         FlatVuesionIJTheme.setup();
     }
 
